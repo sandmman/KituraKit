@@ -78,7 +78,7 @@ should_increment_patch() {
 }
 
 if [ -f VERSION ]; then
-    CURRENT_VERSION_STRING="$( git describe --abbrev=0 --tags )"
+    CURRENT_VERSION_STRING="$( git describe --tags `git rev-list --tags --max-count=1` )"
     NORMALIZED_CURRENT_VERSION_STRING="$( echo $CURRENT_VERSION_STRING | sed "s/[a-zA-Z]*\([0-9\.]*\)[a-z]*$/\1/" )"
     BASE_VERSION_STRING=`cat VERSION`
 
@@ -92,6 +92,6 @@ if [ -f VERSION ]; then
     # If the provided file's version is greater than we should use the version file
     else
       echo "Using File Version"
-      update_git $BASE_VERSION_STRING
+      update_tag $BASE_VERSION_STRING
     fi
 fi
