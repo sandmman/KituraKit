@@ -19,7 +19,6 @@ print("client: \(client)")
 let group = DispatchGroup()
 group.enter()
 
-// avoid deadlocks by not using .main queue here
 DispatchQueue.global().async {
     print("Submitting POST to server...")
     client.post("/orders", data: order) { (order: Order?, error: RequestError?) in
@@ -31,16 +30,6 @@ DispatchQueue.global().async {
 
 // wait ...
 group.wait()
-
-
-// DispatchQueue.main.sync {
-//     print("Submitting POST to server...")
-//     client.post("/orders", data: order) { (order: Order?, error: RequestError?) in
-//         print("order: \(order!)")
-//     }
-//     print("Completed submitting async request...")
-// }
-
 
 
 print("Hello there!")
