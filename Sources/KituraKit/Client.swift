@@ -158,6 +158,31 @@ public class KituraKit {
             }
         }
     }
+
+    // public func post<I: Codable, O: Codable>(_ route: String, data: I, respondWith: @escaping CodableResultClosure<O>) {
+    //     let url = baseURL.appendingPathComponent(route)
+    //     let encoded = try? JSONEncoder().encode(data)
+    //     let request = RestRequest(method: .post, url: url.absoluteString)
+    //     request.messageBody = encoded
+        
+    //     request.responseData { response in
+    //         switch response.result {
+    //         case .success(let data):
+    //             guard let item: O = try? JSONDecoder().decode(O.self, from: data) else {
+    //                 respondWith(nil, RequestError.clientDeserializationError)
+    //                 return
+    //             }
+    //             respondWith(item, nil)
+    //         case .failure(let error):
+    //             Log.error("POST failure: \(error)")
+    //             if let restError = error as? RestError {
+    //                 respondWith(nil, RequestError(restError: restError))
+    //             } else {
+    //                 respondWith(nil, .clientErrorUnknown)
+    //             }
+    //         }
+    //     }
+    // }
     
     /// Sends data to a designated route, allowing for the route to respond with an additional Identifier.
     ///

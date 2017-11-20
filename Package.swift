@@ -27,6 +27,10 @@ let package = Package(
             name: "KituraKit",
             targets: ["KituraKit"]
         ),
+        .executable(
+            name: "program",
+            targets: ["Program"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -42,6 +46,10 @@ let package = Package(
         .target(
             name: "KituraKit",
             dependencies: ["KituraContracts", "SwiftyRequest"]
+        ),
+        .target(
+            name: "Program",
+            dependencies: ["KituraKit"]
         ),
         .testTarget(
             name: "KituraKitTests",
