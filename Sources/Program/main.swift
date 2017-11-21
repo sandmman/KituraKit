@@ -26,7 +26,11 @@ group.enter()
 DispatchQueue.global().async {
     print("Submitting POST to server...")
     client.post("/orders", data: order) { (order: Order?, error: RequestError?) in
-        print("order: \(order!)")
+        if let order = order {
+            print("order: \(order)")
+        } else if let error = error {
+             print("error: \(error)")
+        }
         group.leave()
     }
     print("Completed submitting async request...")
