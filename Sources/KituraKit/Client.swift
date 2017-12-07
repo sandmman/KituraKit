@@ -174,14 +174,12 @@ public class KituraKit {
     request.responseData { response in
       switch response.result {
       case .success(let data):
-        print("success")
         guard let item: O = try? JSONDecoder().decode(O.self, from: data) else {
           respondWith(nil, RequestError.clientDeserializationError)
           return
         }
         respondWith(item, nil)
       case .failure(let error):
-        print("POST failure: \(error)")
         if let restError = error as? RestError {
           respondWith(nil, RequestError(restError: restError))
         } else {
