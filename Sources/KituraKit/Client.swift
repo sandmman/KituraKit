@@ -404,7 +404,7 @@ public class KituraKit {
 /// let checkedUrl = checkMistypedURL(inputURL: baseURL)
 /// ````
 /// - Parameter inputURL: The string that is checked for mistypes.
-private func checkMistypedProtocol(inputURL: String) -> String {
+public func checkMistypedProtocol(inputURL: String) -> String {
   let mistypes = ["http:/","http:","http","htp://","ttp://","htttp://","htpp://","http//","htt://","http:://","http:///","httpp://","hhttp://","htt:"]
   if String(inputURL.prefix(7)).lowercased() == "http://" || String(inputURL.prefix(8)).lowercased() == "https://"{
     if String(inputURL.prefix(8)).lowercased() != "http:///" {
