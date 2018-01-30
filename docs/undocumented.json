@@ -2,8 +2,8 @@
   "warnings": [
     {
       "file": "/Users/AaronLiberatore/Documents/KituraKit/Sources/KituraKit/Client.swift",
-      "line": 39,
-      "symbol": "KituraKit.init(baseURL:)",
+      "line": 42,
+      "symbol": "KituraKit.init(baseURL:containsSelfSignedCert:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     }

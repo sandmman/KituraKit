@@ -35,6 +35,7 @@
      /// Customisable URL used for setting up the routes when initializing a new KituraKit instance.
      public let baseURL: URL
 
+     /// Boolean identiying whether the baseURL endpoint uses a self-seigned certificate and should be accepted
      public let containsSelfSignedCert: Bool
 
      // Initializers
@@ -45,6 +46,7 @@
 
      /// An initializer to set up a custom KituraKit instance on a specified route.
      /// - Parameter baseURL: The custom route KituraKit points to during REST requests.
+     /// - Parameter containsSelfSignedCert: Boolean denoting whether the url endpoint uses a self-signed certificate
      /// - Returns: nil if invalid URL. Otherwise return a KituraKit object
      public convenience init?(baseURL: String, containsSelfSignedCert: Bool = false) {
          //if necessary, trim extra back slash
