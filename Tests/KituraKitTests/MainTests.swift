@@ -37,6 +37,7 @@ class MainTests: XCTestCase {
             ("testClientGetSingle", testClientGetSingle),
             ("testClientGetSingleErrorPath", testClientGetSingleErrorPath),
             ("testClientPost", testClientPost),
+            ("testSecureClientGet", testSecureClientGet),
             ("testClientPostWithIdentifier", testClientPostWithIdentifier),
             ("testClientPostErrorPath", testClientPostErrorPath),
             ("testClientPut", testClientPut),
@@ -163,6 +164,22 @@ class MainTests: XCTestCase {
             expectation1.fulfill()
         }
         waitForExpectations(timeout: 3.0, handler: nil)
+    }
+
+    func testSecureClientGet() {
+        #if !os(Linux)
+        let expectation1 = expectation(description: "A response is received from the server -> user")
+
+        let client = KituraKit(baseURL: "https://self-signed.badssl.com", containsSelfSignedCert: true)
+
+        client?.get("") { (resp: String?, error: RequestError?) -> Void in
+            /// The website used for testing does not return json, so the client
+            /// will always fail.
+            XCTAssertEqual(error, .clientDeserializationError)
+            expectation1.fulfill()
+        }
+        waitForExpectations(timeout: 3.0, handler: nil)
+        #endif
     }
 
     func testClientPostWithIdentifier() {
@@ -362,7 +379,6 @@ class MainTests: XCTestCase {
         expectation1.fulfill()
 
         waitForExpectations(timeout: 3.0, handler: nil)
-
 
     }
 

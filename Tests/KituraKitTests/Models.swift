@@ -46,7 +46,7 @@ public struct UserOptional: Codable, Equatable {
 
 }
 
-public struct Employee: Codable, Equatable {    
+public struct Employee: Codable, Equatable {
     public let id: String
     public let name: String
 
