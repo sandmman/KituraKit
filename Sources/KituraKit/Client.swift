@@ -38,21 +38,47 @@
      /// Boolean identiying whether the baseURL endpoint uses a self-seigned certificate and should be accepted
      public let containsSelfSignedCert: Bool
 
-     // Initializers
-     public init(baseURL: URL, containsSelfSignedCert: Bool = false) {
+     /// An initializer to set up a custom KituraKit instance on a specified route.
+     /// - Parameter baseURL: The custom route KituraKit points to during REST requests.
+     public init(baseURL: URL) {
          self.baseURL = baseURL
-         self.containsSelfSignedCert = containsSelfSignedCert
+         self.containsSelfSignedCert = false
      }
 
      /// An initializer to set up a custom KituraKit instance on a specified route.
      /// - Parameter baseURL: The custom route KituraKit points to during REST requests.
      /// - Parameter containsSelfSignedCert: Boolean denoting whether the url endpoint uses a self-signed certificate
      /// - Returns: nil if invalid URL. Otherwise return a KituraKit object
+     public convenience init?(baseURL: String) {
+         guard let url = createURL(from: baseURL) else {
+             return nil
+         }
+         self.init(baseURL: url)
+     }
+
+     /// An initializer to set up a custom KituraKit instance on a specified route.
+     /// - Parameter baseURL: The custom route KituraKit points to during REST requests.
+     /// - Parameter containsSelfSignedCert: Boolean denoting whether the url endpoint uses a self-signed certificate
+     /// - Returns: nil if self-signed certificates are not supported for the calling system or versio
+     @available(iOS 3.0, macOS 10.6, *)
+     public init?(baseURL: URL, containsSelfSignedCert: Bool = false) {
+         self.baseURL = baseURL
+         self.containsSelfSignedCert = containsSelfSignedCert
+
+         /// Self-signed certs are not available on Linux. Requires minimum of iOS 3.0 or macOS 10.6
+         #if os(Linux)
+         Log.error("Self signed certificates require a Darwin OS with minimum system versions of iOS 3.0 or macOS 10.6")
+         return nil
+         #endif
+     }
+
+     /// An initializer to set up a custom KituraKit instance on a specified route.
+     /// - Parameter baseURL: The custom route KituraKit points to during REST requests.
+     /// - Parameter containsSelfSignedCert: Boolean denoting whether the url endpoint uses a self-signed certificate
+     /// - Returns: nil if using an invalid URL or self-signed certificates are not available
+     @available(iOS 3.0, macOS 10.6, *)
      public convenience init?(baseURL: String, containsSelfSignedCert: Bool = false) {
-         //if necessary, trim extra back slash
-         let noSlashUrl: String = baseURL.last == "/" ? String(baseURL.dropLast()) : baseURL
-         let checkedUrl = checkMistypedProtocol(inputURL: noSlashUrl)
-         guard let url = URL(string: checkedUrl) else {
+         guard let url = createURL(from: baseURL) else {
              return nil
          }
          self.init(baseURL: url, containsSelfSignedCert: containsSelfSignedCert)
@@ -405,4 +431,11 @@
      }
      //if no matching mistypes just add http:// to the front
      return "http://\(inputURL)"
+ }
+
+ private func createURL(from baseURL: String) -> URL? {
+     //if necessary, trim extra back slash
+     let noSlashUrl: String = baseURL.last == "/" ? String(baseURL.dropLast()) : baseURL
+     let checkedUrl = checkMistypedProtocol(inputURL: noSlashUrl)
+     return URL(string: checkedUrl)
  }
