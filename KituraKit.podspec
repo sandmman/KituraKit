@@ -29,5 +29,8 @@ Pod::Spec.new do |s|
        end
     end
   end
+  swiftyrequest.subspec 'LoggerAPI' do |loggerapi|
+     loggerapi.source_files = 'Sources/KituraKit/LoggerAPI/*.swift'
+  end
   s.source_files  = "Sources/KituraKit/*.swift"
 end
