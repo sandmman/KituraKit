@@ -16,6 +16,7 @@
 
 import Foundation
 import Dispatch
+import LoggerAPI
 
 /// CircuitBreaker class
 ///

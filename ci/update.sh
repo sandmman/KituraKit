@@ -15,14 +15,13 @@
 # limitations under the License.
 ##
 
-osName="linux"
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then osName="osx"; fi
+osName="osx"
 export osName
 export projectFolder=`pwd`
 projectName="$(basename $projectFolder)"
 export SWIFT_SNAPSHOT=swift-4.0
-sudo apt-get -qq update > /dev/null
-sudo apt-get -y -qq install clang lldb-3.8 libicu-dev libtool libcurl4-openssl-dev libbsd-dev build-essential libssl-dev uuid-dev tzdata libz-dev > /dev/null
+#sudo apt-get -qq update > /dev/null
+#cd sudo apt-get -y -qq install clang lldb-3.8 libicu-dev libtool libcurl4-openssl-dev libbsd-dev build-essential libssl-dev uuid-dev tzdata libz-dev > /dev/null
 
 # Environment vars
 version=`lsb_release -d | awk '{print tolower($2) $3}'`
@@ -42,21 +41,21 @@ fi
 
 echo ">> Installing '${SWIFT_SNAPSHOT}'..."
 # Install Swift compiler
-cd $projectFolder
-wget https://swift.org/builds/$SNAPSHOT_TYPE/$UBUNTU_VERSION_NO_DOTS/$SWIFT_SNAPSHOT/$SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
-tar xzf $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
-export PATH=$projectFolder/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr/bin:$PATH
-rm $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
+#cd $projectFolder
+#wget https://swift.org/builds/$SNAPSHOT_TYPE/$UBUNTU_VERSION_NO_DOTS/$SWIFT_SNAPSHOT/$SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
+#tar xzf $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
+#export PATH=$projectFolder/$SWIFT_SNAPSHOT-$UBUNTU_VERSION/usr/bin:$PATH
+#rm $SWIFT_SNAPSHOT-$UBUNTU_VERSION.tar.gz
 
 # Actions after Swift installation
 
-git remote rm origin
-git remote add origin https://SwiftDevOps:${GITHUB_TOKEN}@github.com/IBM-Swift/KituraKit
-git fetch
-git checkout pod
-git pull origin master 
+#git remote rm origin
+#git remote add origin https://SwiftDevOps:${GITHUB_TOKEN}@github.com/IBM-Swift/KituraKit
+#git fetch
+#git checkout pod
+#git pull origin master
 
-swift package resolve
+#swift package resolve
 
 cd .build/checkouts/LoggerAPI*
 cp -r Sources/LoggerAPI ../../../Sources/KituraKit
@@ -66,13 +65,14 @@ cp -r Sources/CircuitBreaker ../../../Sources/KituraKit
 
 cd ../KituraContracts*
 cp -r  Sources/KituraContracts ../../../Sources/KituraKit
+mv ../../../Sources/KituraKit/KituraContracts/CodableQuery/*.swift ../
 
 cd ../SwiftyRequest*
 cp -r Sources/SwiftyRequest ../../../Sources/KituraKit
 
 cd ../../../Sources/KituraKit
 
-# Remove all the import statements that aren't needed 
+# Remove all the import statements that aren't needed
 
 sed -i '/import LoggerAPI/d' Client.swift
 sed -i '/import KituraContracts/d' Client.swift
@@ -82,9 +82,14 @@ sed -i '/import KituraContracts/d' RequestErrorExtension.swift
 sed -i '/import SwiftyRequest/d' RequestErrorExtension.swift
 cd SwiftyRequest/
 sed -i '/import CircuitBreaker/d' RestRequest.swift
+sed -i '/import LoggerAPI/d' RestRequest.swift
 cd ../CircuitBreaker
 sed -i '/import LoggerAPI/d' CircuitBreaker.swift
 sed -i '/import LoggerAPI/d' Stats.swift
+cd ../KituraContracts
+sed -i '/import LoggerAPI/d' Extensions.swift
+sed -i '/import LoggerAPI/d' QueryEncoder.swift
+sed -i '/import LoggerAPI/d' QueryDecoder.swift
 
 cd ../../../
 
@@ -92,5 +97,5 @@ rm -rf swift-4.0-RELEASE-ubuntu14.04/
 rm -rf Package-Builder/
 git add -A
 NEW_VERSION='cat ci/VERSION'
-git commit -m "Updating pod branch to version: $NEW_VERSION"
-git push origin pod
+#git commit -m "Updating pod branch to version: $NEW_VERSION"
+#git push origin pod

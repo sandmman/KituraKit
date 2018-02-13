@@ -15,6 +15,7 @@
 **/
 
 import Foundation
+import LoggerAPI
 
 /// Circuit Breaker Stats
 public class Stats {

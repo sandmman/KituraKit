@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.license      = { :type => "APACHE 2.0", :file => "LICENSE" }
   s.authors      = { "David Dunn" => "davdunn2@uk.ibm.com" }
   s.platform     = :ios, "11.0"
-  s.source       = { :git => "https://github.com/IBM-Swift/KituraKit", :branch => "pod", :submodules => true }
+  s.source       = { :git => "https://github.com/sandmman/KituraKit", :branch => "pod", :submodules => true }
   s.subspec 'KituraContracts' do |kituracontracts|
     kituracontracts.source_files = 'Sources/KituraKit/KituraContracts/*.swift'
     kituracontracts.subspec 'LoggerAPI' do |loggerapi|

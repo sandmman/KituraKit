@@ -15,7 +15,6 @@
  */
 
 import Foundation
-import LoggerAPI
 
 /// Query Parameter Decoder
 /// Decodes a [String: String] object to a Decodable object instance
@@ -154,7 +153,7 @@ public class QueryDecoder: Coder, Decoder {
         func contains(_ key: Key) -> Bool {
           return decoder.dictionary[key.stringValue] != nil
         }
-      
+
         func decode<T>(_ type: T.Type, forKey key: Key) throws -> T where T : Decodable {
           self.decoder.codingPath.append(key)
           defer { self.decoder.codingPath.removeLast() }

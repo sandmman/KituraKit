@@ -3,4 +3,4 @@ app:
   image: ibmcom/swift-ubuntu:4.0.3
   volumes:
     - .:/KituraKit
-  command: bash -c "cd /KituraKit && swift package --build-path .build-ubuntu clean && swift build --build-path .build-ubuntu && swift test --build-path .build-ubuntu"
+  command: bash -c "cd /KituraKit && sh ./ci/update.sh"
