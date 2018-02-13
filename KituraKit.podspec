@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
     kituracontracts.source_files = 'Sources/KituraKit/KituraContracts/*.swift'
     kituracontracts.subspec 'LoggerAPI' do |loggerapi|
         loggerapi.source_files = 'Sources/KituraKit/LoggerAPI/*.swift'
-        end
+    end
   end
   s.subspec 'CircuitBreaker' do |circuitbreaker|
     circuitbreaker.source_files = 'Sources/KituraKit/CircuitBreaker/*.swift'
@@ -22,18 +22,12 @@ Pod::Spec.new do |s|
   end
   s.subspec 'SwiftyRequest' do |swiftyrequest|
     swiftyrequest.source_files = 'Sources/KituraKit/SwiftyRequest/*.swift'
-    swiftyrequest.subspec 'LoggerAPI' do |loggerapi|
-       loggerapi.source_files = 'Sources/KituraKit/LoggerAPI/*.swift'
-    end
     swiftyrequest.subspec 'CircuitBreaker' do |circuitbreaker|
        circuitbreaker.source_files = 'Sources/KituraKit/CircuitBreaker/*.swift'
        circuitbreaker.subspec 'LoggerAPI' do |loggerapi|
           loggerapi.source_files = 'Sources/KituraKit/LoggerAPI/*.swift'
        end
     end
-  end
-  s.subspec 'LoggerAPI' do |loggerapi|
-     loggerapi.source_files = 'Sources/KituraKit/LoggerAPI/*.swift'
   end
   s.source_files  = "Sources/KituraKit/*.swift"
 end
